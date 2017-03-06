@@ -114,8 +114,6 @@ public final class Config {
         init_param_fs_index_path = properties.getProperty("init_param_fs_index_path");
         //Bean转换映射,格式 key:BusBean,value:DocBean
         busbean_lucenebean_mapping.put(Book.class, DocBook.class);
-        //BusBean的Id字段配置，在存入、更新、删除Lucene之前，将docId、docType进行赋值，docType通过调用方法传入
-        doc_type_mapping.put(Book.class, "id");
         //DocBean非String类型在进出Lucene的转换映射<<Class,String>,Class>，<DocBean的字段名称, DocBean特定字段的Class>>
         //添加BusBean的ID配置
         //TODO 有一些配置错误，程序运行会如何报错，需要考虑，比如id配置成了Id，自省过程可能出现空指针异常
@@ -124,6 +122,8 @@ public final class Config {
         none_segment_mapping.put(DocBook.class,"describs");
         defaultAnalyzerr = ConfigTools.getDefaultAnalyzer();
         defaultDirectory = ConfigTools.getDefaultFSDirectory();
+        //BusBean的Id字段配置，在存入、更新、删除Lucene之前，将docId、docType进行赋值，docType通过调用方法传入
+        doc_type_mapping.put(Book.class, "id");
     }
 
     public static Map<Class, Class> getBusbean_lucenebean_mapping() {
