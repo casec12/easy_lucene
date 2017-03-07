@@ -69,7 +69,7 @@ public class LuceneUtils {
 
             //不分词标志
             boolean noneSegment = false;
-            Class propRunTypeClass = field.getClass();
+            Class propRunTypeClass = docBean.getClass();
             for (Map.Entry<Class, String> KV : Config.getNone_segment_mapping().entrySet()) {
                 if (propRunTypeClass.equals(KV.getKey()) && fieldName.equals(KV.getValue())) {
                     noneSegment = true;
@@ -96,10 +96,8 @@ public class LuceneUtils {
             }
             if (noneSegment) {
                 luceneDoc.add(new StringField(indexedFieldName, indexedFieldValue, Field.Store.YES));
-                luceneDoc.add(new SortedDocValuesField(indexedFieldName, new BytesRef(indexedFieldValue)));
             } else {
                 luceneDoc.add(new TextField(indexedFieldName, indexedFieldValue, Field.Store.YES));
-                luceneDoc.add(new SortedDocValuesField(indexedFieldName, new BytesRef(indexedFieldValue)));
             }
         }
 
