@@ -113,9 +113,9 @@ public class Example {
 
     public static void upload() {
         Book book1 = new Book();
-        book1.setId("id002");
+        book1.setId("ID002");
         //TODO 这里有bug，若此字段为大写，会被默认标准分词器处理，实际存小写，导致下面查不到，可通过检索字段统一转小写处理
-        book1.setName("bookno2");
+        book1.setName("BOOKNO2");
         book1.setPages(100);
         book1.setDescribs(new String[]{"北京市", "上海市"});
 
@@ -125,8 +125,8 @@ public class Example {
 
     public static void query() {
         Book searchedBookBean1 = new Book();
-        searchedBookBean1.setId("id002");
-        searchedBookBean1.setName("bookno2");
+        searchedBookBean1.setId("ID002");
+        searchedBookBean1.setName("BOOKNO2");
         //TODO 这里有bug，如不传该字段，因BusBean为int类型，值为0，相当于setPages(0)会查不到。
         searchedBookBean1.setPages(100);
         searchedBookBean1.setDescribs(new String[]{"上海市","北京市"});

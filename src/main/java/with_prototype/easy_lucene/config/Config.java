@@ -40,9 +40,9 @@ public final class Config {
      */
     private static final Map<Class, String[]> bean_id_mapping = new HashMap<Class, String[]>();
     /**
-     * 不分词字段Bean-属性名映射,<DocBeanClass,属性名称>
+     * 需要分词字段Bean-属性名映射,<DocBeanClass,属性名称>
      */
-    private static final Map<Class, String> none_segment_mapping = new HashMap<Class,String>();
+    private static final Map<Class, String> need_segment_mapping = new HashMap<Class,String>();
     /**
      * 将多个beanid组合为docid，使用的分隔符
      */
@@ -81,8 +81,8 @@ public final class Config {
 
     public static Map<Class, Class> getTrans_bean_mapping() { return busbean_lucenebean_mapping; }
 
-    public static Map<Class, String> getNone_segment_mapping() {
-        return none_segment_mapping;
+    public static Map<Class, String> getNeed_segment_mapping() {
+        return need_segment_mapping;
     }
 
     public static Map<Class, String[]> getBean_id_mapping() { return bean_id_mapping; }
@@ -119,7 +119,7 @@ public final class Config {
         //TODO 有一些配置错误，程序运行会如何报错，需要考虑，比如id配置成了Id，自省过程可能出现空指针异常
         bean_id_mapping.put(Book.class,new String[]{"id"});
         //不分词属性-Bean的映射配置<DocBeanClass,属性名称>
-        none_segment_mapping.put(DocBook.class,"describs");
+//        need_segment_mapping.put(DocBook.class,"describs");
         defaultAnalyzerr = ConfigTools.getDefaultAnalyzer();
         defaultDirectory = ConfigTools.getDefaultFSDirectory();
         //BusBean的Id字段配置，在存入、更新、删除Lucene之前，将docId、docType进行赋值，docType通过调用方法传入

@@ -67,12 +67,12 @@ public class LuceneUtils {
             if (field == null)
                 continue;
 
-            //不分词标志
-            boolean noneSegment = false;
+            //分词标志
+            boolean needSegment = false;
             Class propRunTypeClass = docBean.getClass();
-            for (Map.Entry<Class, String> KV : Config.getNone_segment_mapping().entrySet()) {
+            for (Map.Entry<Class, String> KV : Config.getNeed_segment_mapping().entrySet()) {
                 if (propRunTypeClass.equals(KV.getKey()) && fieldName.equals(KV.getValue())) {
-                    noneSegment = true;
+                    needSegment = true;
                     break;
                 }
             }
@@ -94,10 +94,10 @@ public class LuceneUtils {
                 indexedFieldName = fieldName;
                 indexedFieldValue = field.toString();
             }
-            if (noneSegment) {
-                luceneDoc.add(new StringField(indexedFieldName, indexedFieldValue, Field.Store.YES));
-            } else {
+            if (needSegment) {
                 luceneDoc.add(new TextField(indexedFieldName, indexedFieldValue, Field.Store.YES));
+            } else {
+                luceneDoc.add(new StringField(indexedFieldName, indexedFieldValue, Field.Store.YES));
             }
         }
 
