@@ -130,7 +130,7 @@ public class LuceneUtils {
 
         if (document != null) {//beanid in index exists, update index
             //TODO 这里，要把docType也作为类似主键的标志，加入Term
-            indexWriter.updateDocument(new Term(Constants.DOC_ID_FIELD, docId.toLowerCase()), luceneDoc);
+            indexWriter.updateDocument(new Term(Constants.DOC_ID_FIELD, docId), luceneDoc);
             indexWriter.commit();
         } else {//beanid in index not exists, add index
             indexWriter.addDocument(luceneDoc);
@@ -336,7 +336,7 @@ public class LuceneUtils {
         IndexSearcher searcher = new IndexSearcher(reader);
 
         //TODO 这里要调整为还支持DocType的Parser
-        Query q = new TermQuery(new Term(Constants.DOC_ID_FIELD, docId.toLowerCase()));
+        Query q = new TermQuery(new Term(Constants.DOC_ID_FIELD, docId));
 
         TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage);
         searcher.search(q, collector);
