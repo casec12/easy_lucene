@@ -32,7 +32,7 @@ public class HelloLucene {
         // the "title" arg specifies the default field to use
         // when no field is explicitly specified in the query.
 //        Query q = new TermQuery(new Term("isbn", "_isbn1,_isbn2"));
-////        Query q = new QueryParser("isbn", analyzer).parse("_isbn1_isbn2");
+//        Query q = new QueryParser("isbn", analyzer).parse("_isbn1_isbn2");
         Query q1 = new TermQuery(new Term("title", "title"));
         Query q2 = new TermQuery(new Term("isbn", "isbn"));
 //        BooleanQuery booleanQuery = new BooleanQuery.Builder()

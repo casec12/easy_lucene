@@ -2,7 +2,7 @@ package with_prototype.easy_lucene.config;
 
 import com.cncell.bean.Book;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.cjk.CJKAnalyzer;
 import org.apache.lucene.store.Directory;
 import with_prototype.easy_lucene.bean.DocBook;
 import with_prototype.easy_lucene.constants.ExceptionEnum;
@@ -42,7 +42,7 @@ public final class Config {
     /**
      * 需要分词字段Bean-属性名映射,<DocBeanClass,属性名称>
      */
-    private static final Map<Class, String> need_segment_mapping = new HashMap<Class, String>();
+    private static final Map<Class, String[]> need_segment_mapping = new HashMap<Class, String[]>();
     /**
      * 日期类型转换配置
      */
@@ -63,7 +63,7 @@ public final class Config {
     /**
      * 默认分词器
      */
-    private static final Class defaultAnalyzerClass = StandardAnalyzer.class;
+    private static final Class defaultAnalyzerClass = CJKAnalyzer.class;
     private static final Analyzer defaultAnalyzerr;
 
     /**
@@ -91,7 +91,7 @@ public final class Config {
         return busbean_lucenebean_mapping;
     }
 
-    public static Map<Class, String> getNeed_segment_mapping() {
+    public static Map<Class, String[]> getNeed_segment_mapping() {
         return need_segment_mapping;
     }
 
@@ -138,8 +138,8 @@ public final class Config {
         //添加BusBean的ID配置
         //TODO 有一些配置错误，程序运行会如何报错，需要考虑，比如id配置成了Id，自省过程可能出现空指针异常
         bean_id_mapping.put(Book.class, new String[]{"id"});
-        //不分词属性-Bean的映射配置<DocBeanClass,属性名称>
-//        need_segment_mapping.put(DocBook.class,"describs");
+        //分词属性-Bean的映射配置<DocBeanClass,属性名称>
+        need_segment_mapping.put(DocBook.class,new String[]{"describs"});
         defaultAnalyzerr = ConfigTools.getDefaultAnalyzer();
         defaultDirectory = ConfigTools.getDefaultFSDirectory();
         //BusBean的Id字段配置，在存入、更新、删除Lucene之前，将docId、docType进行赋值，docType通过调用方法传入

@@ -5,6 +5,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.lucene.document.*;
 import org.apache.lucene.index.*;
 import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.*;
 import org.apache.lucene.util.BytesRef;
 import with_prototype.easy_lucene.bean.BaseBean;
@@ -70,8 +71,9 @@ public class LuceneUtils {
             //分词标志
             boolean needSegment = false;
             Class propRunTypeClass = docBean.getClass();
-            for (Map.Entry<Class, String> KV : Config.getNeed_segment_mapping().entrySet()) {
-                if (propRunTypeClass.equals(KV.getKey()) && fieldName.equals(KV.getValue())) {
+            for (Map.Entry<Class, String[]> KV : Config.getNeed_segment_mapping().entrySet()) {
+                List fieldsNameList = Arrays.asList(KV.getValue());
+                if (propRunTypeClass.equals(KV.getKey()) && fieldsNameList.contains(fieldName)) {
                     needSegment = true;
                     break;
                 }
@@ -236,7 +238,15 @@ public class LuceneUtils {
             if (mapping_busbean_class != null && Arrays.asList(Config.getBean_id_mapping().get(mapping_busbean_class)).contains(fieldName))
                 continue;
 
-            queryBuilder.add(new TermQuery(new Term(fieldName, fieldValue)), BooleanClause.Occur.MUST);
+            //TODO 对于配置的分词字段，使用默认器生成Query，并添加到Builder中
+            for(Map.Entry<Class,String[]> entry_ : Config.getNeed_segment_mapping().entrySet()){
+                List segementFieldNames = Arrays.asList(entry_.getValue());
+                if(docBeanClass.equals(entry_.getKey()) && segementFieldNames.contains(fieldName)){
+                    queryBuilder.add(new QueryParser(fieldName, Config.getDefaultAnalyzerr()).parse(fieldValue), BooleanClause.Occur.MUST);
+                }else{
+                    queryBuilder.add(new TermQuery(new Term(fieldName, fieldValue)), BooleanClause.Occur.MUST);
+                }
+            }
             hasEfectiveQuery++;
         }
 
@@ -414,5 +424,6 @@ public class LuceneUtils {
         }
 */
     }
+
 
 }
