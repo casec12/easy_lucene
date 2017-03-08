@@ -3,6 +3,8 @@ package with_prototype.easy_lucene.example;
 import com.cncell.bean.Book;
 import with_prototype.easy_lucene.service.EasyLuceneService;
 
+import java.util.Date;
+
 /**
  * 这版用LuceneTool实现
  * //TODO
@@ -113,23 +115,28 @@ public class Example {
 
     public static void upload() {
         Book book1 = new Book();
-        book1.setId("ID002");
+        book1.setId("ID001");
         //TODO 这里有bug，若此字段为大写，会被默认标准分词器处理，实际存小写，导致下面查不到，可通过检索字段统一转小写处理
-        book1.setName("BOOKNO2");
-        book1.setPages(100);
-        book1.setDescribs(new String[]{"北京市", "上海市"});
-
+        book1.setName("BOOKNO1");
+        book1.setPages(2);
+        book1.setWidth(2.0);
+        book1.setHeight(2.0f);
+        book1.setDescribs(new String[]{"北京市", "上海市","天津市","南京市"});
+        book1.setPrintdate(new Date());
         System.out.println("索引book1");//索引book1
         EasyLuceneService.updateBeanIndex(book1, "book");
     }
 
     public static void query() {
         Book searchedBookBean1 = new Book();
-        searchedBookBean1.setId("ID002");
-        searchedBookBean1.setName("BOOKNO2");
+        searchedBookBean1.setId("ID001");
+        searchedBookBean1.setName("BOOKNO1");
         //TODO 这里有bug，如不传该字段，因BusBean为int类型，值为0，相当于setPages(0)会查不到。
-        searchedBookBean1.setPages(100);
-        searchedBookBean1.setDescribs(new String[]{"上海市","北京市"});
+        searchedBookBean1.setPages(2);
+        searchedBookBean1.setWidth(2.0);
+        searchedBookBean1.setHeight(2.0f);
+        searchedBookBean1.setPrintdate(new Date());
+        searchedBookBean1.setDescribs(new String[]{"北京市", "上海市","天津市","南京市"});
         System.out.println("============查询book1，带id字段");//查询book1，带id字段
         EasyLuceneService.searchBean(searchedBookBean1, "book");
     }
@@ -137,7 +144,7 @@ public class Example {
     public static void main(String[] args) throws Exception {
 //        main_();
 
-        upload();
+//        upload();
         query();
     }
 }

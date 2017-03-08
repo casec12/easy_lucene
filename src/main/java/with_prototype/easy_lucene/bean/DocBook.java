@@ -5,6 +5,9 @@ public class DocBook extends BaseBean {
     private String name;
     private String[] describs;
     private String pages;
+    private String printdate;
+    private String width;
+    private String height;
 
     public String getPages() {
         return pages;
@@ -15,6 +18,22 @@ public class DocBook extends BaseBean {
     }
 
     public DocBook() {
+    }
+
+    public String getWidth() {
+        return width;
+    }
+
+    public void setWidth(String width) {
+        this.width = width;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
     }
 
     public String[] getDescribs() {
@@ -41,5 +60,11 @@ public class DocBook extends BaseBean {
         this.name = name;
     }
 
+    public String getPrintdate() {
+        return printdate;
+    }
 
+    public void setPrintdate(String printdate) {
+        this.printdate = printdate;
+    }
 }

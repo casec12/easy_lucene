@@ -1,7 +1,8 @@
 package with_prototype.easy_lucene.constants;
 
 public enum ExceptionEnum {
-    LOAD_CONFIG_EXCEPTION("ERROR_CODE_00001","加载配置失败")
+    SYSTEM_INNER_ERROR("ERROR_CODE_00000","内部错误")
+    ,LOAD_CONFIG_EXCEPTION("ERROR_CODE_00001","加载配置失败")
     ,ILLEGAL_BEAN_ARGUMENT_EXCEPTION("ERROR_CODE_00002","无效Bean参数")
     ,ILLEGAL_TRANSTYPE_ARGUMENT_EXCEPTION("ERROR_CODE_00003","无效transType参数")
     ,ILLEGAL_DOCTYPE_ARGUMENT_EXCEPTION("ERROR_CODE_00004","docType为空")
@@ -12,7 +13,9 @@ public enum ExceptionEnum {
     ,NONE_CONFIG_BUSBEAN_ID_MAPPING_EXCEPTION("ERROR_CODE_00009","BusBean未配置ID映射")
     ,NULL_DOCBEAN_ID_EXCEPTION("ERROR_CODE_00010","docBean中docId为空")
     ,BEAN_FIELD_ALL_NULL_EXCEPTION("ERROR_CODE_00011","查询条件的Bean，属性均为空")
-    ,SCAN_BUSBEAN_ID_NULL_EXCEPTION("ERROR_CODE_00012","BusBeanId检测为空（删除index）");
+    ,SCAN_BUSBEAN_ID_NULL_EXCEPTION("ERROR_CODE_00012","BusBeanId检测为空（删除index）")
+    ,ILLEGAL_ARGUMENT_DATE_DATE_TYPE_EXCEPTION("ERROR_CODE_00013","无效日期参数类型:Date")
+    ,ILLEGAL_ARGUMENT_DATE_STRING_TYPE_EXCEPTION("ERROR_CODE_00014","无效日期参数类型:String");
 
     private String code;
     private String message;
