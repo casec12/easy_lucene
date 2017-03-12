@@ -221,6 +221,7 @@ public class LuceneUtils {
             }
         }
 
+
         BooleanQuery.Builder queryBuilder = new BooleanQuery.Builder();
         int hasEfectiveQuery = 0;//是否包含有效的查询条件
         for (Map.Entry<String, String> entry : docBeanMap.entrySet()) {
@@ -239,11 +240,29 @@ public class LuceneUtils {
                 continue;
 
             //TODO 对于配置的分词字段，使用默认器生成Query，并添加到Builder中
+            setField:
             for(Map.Entry<Class,String[]> entry_ : Config.getNeed_segment_mapping().entrySet()){
                 List segementFieldNames = Arrays.asList(entry_.getValue());
+
                 if(docBeanClass.equals(entry_.getKey()) && segementFieldNames.contains(fieldName)){
                     queryBuilder.add(new QueryParser(fieldName, Config.getDefaultAnalyzerr()).parse(fieldValue), BooleanClause.Occur.MUST);
                 }else{
+                    //时间范围检索字段处理(这类字段都是不分词的)
+                    Map<Class,String[][]> range_year_mapping = Config.getRange_year_mapping();
+                    for(Map.Entry<Class,String[][]> entry_1 : range_year_mapping.entrySet()){
+                        Class beanClass = entry_1.getKey();
+                        for(String[] fieldArr : entry_1.getValue()){
+                            if(fieldName.equals(fieldArr[0])){
+                                String filedName_ = fieldArr[1];
+                                //TODO 在这里添加范围搜索
+                                String lowTerm = fieldValue.split(Config.getRangeYearConnector())[0];
+                                String highTerm = fieldValue.split(Config.getRangeYearConnector())[1];
+                                queryBuilder.add(TermRangeQuery.newStringRange(filedName_,lowTerm,highTerm,true,true), BooleanClause.Occur.MUST);
+                                continue setField;
+                            }
+                        }
+                    }
+                    //其余字段
                     queryBuilder.add(new TermQuery(new Term(fieldName, fieldValue)), BooleanClause.Occur.MUST);
                 }
             }

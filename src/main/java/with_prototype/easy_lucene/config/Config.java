@@ -59,7 +59,14 @@ public final class Config {
      * 数组属性存入Lucene转换的分隔符
      */
     private static final String arrayPropTransSeprator = "_";
-
+    /**
+     * 日期范围检索字段分隔符
+     */
+    private static final String rangeYearConnector = "-";
+    /**
+     * 年份范围搜索配置，格式Map<Class, String[][]>，<BusBeanClass,{{第一组配置：范围输入字段1，范围搜索字段1},{第二组配置：范围输入字段2，范围搜索字段2}}></>支持格式：1990-2000 | 1985+  | 2000-
+     */
+    private static final Map<Class, String[][]> range_year_mapping = new HashMap<Class, String[][]>();
     /**
      * 默认分词器
      */
@@ -123,6 +130,12 @@ public final class Config {
         return number_transfer_mapping;
     }
 
+    public static Map<Class, String[][]> getRange_year_mapping() { return range_year_mapping; }
+
+    public static String getRangeYearConnector() {
+        return rangeYearConnector;
+    }
+
     static {
         Properties properties = new Properties();
         try {
@@ -148,6 +161,8 @@ public final class Config {
         date_transfer_mapping.put(Book.class,new String[]{"printdate"});
         //数字类型转换配置
         number_transfer_mapping.put(Book.class, new String[]{"pages","width","height"});
+        //年份范围搜索配置，支持格式：1990-2000 | 1985+  | 2000-
+        range_year_mapping.put(Book.class, new String[][]{{"rangedate","printdate"}});
     }
 
     public static Map<Class, Class> getBusbean_lucenebean_mapping() {

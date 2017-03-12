@@ -137,6 +137,7 @@ public class Example {
         searchedBookBean1.setHeight(2.0f);
         searchedBookBean1.setPrintdate(new Date());
         searchedBookBean1.setDescribs(new String[]{"北京市", "上海市","天津市","南京市"});
+        searchedBookBean1.setRangedate("20180101-20181231");
         System.out.println("============查询book1，带id字段");//查询book1，带id字段
         EasyLuceneService.searchBean(searchedBookBean1, "book");
     }

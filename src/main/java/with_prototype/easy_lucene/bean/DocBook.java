@@ -8,6 +8,7 @@ public class DocBook extends BaseBean {
     private String printdate;
     private String width;
     private String height;
+    private String rangedate;
 
     public String getPages() {
         return pages;
@@ -66,5 +67,13 @@ public class DocBook extends BaseBean {
 
     public void setPrintdate(String printdate) {
         this.printdate = printdate;
+    }
+
+    public String getRangedate() {
+        return rangedate;
+    }
+
+    public void setRangedate(String rangedate) {
+        this.rangedate = rangedate;
     }
 }

@@ -17,7 +17,7 @@ import static with_prototype.easy_lucene.constants.ExceptionEnum.*;
 
 public class TransferUtils {
 
-    private static final String datePattern="yyyy-MM-dd";
+    private static final String datePattern="yyyyMMdd";
 
     /**
      * 从业务Bean转换为LuceneBean

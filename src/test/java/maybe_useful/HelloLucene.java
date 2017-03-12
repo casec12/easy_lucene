@@ -9,9 +9,10 @@ import org.apache.lucene.index.*;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.RAMDirectory;
+import org.apache.lucene.store.FSDirectory;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 
 public class HelloLucene {
     public static void main(String[] args) throws IOException, ParseException {
@@ -19,11 +20,11 @@ public class HelloLucene {
         // The same analyzer should be used for indexing and searching
         StandardAnalyzer analyzer = new StandardAnalyzer();
         // 1. create the index
-        Directory index = new RAMDirectory();
+//        Directory index = new RAMDirectory();
+        Directory index = FSDirectory.open(Paths.get("/Users/chenzhaolei/Develop/lucene_libs/lucene_fsdirectory_1/index"));
         IndexWriterConfig config = new IndexWriterConfig(analyzer);
         IndexWriter w = new IndexWriter(index, config);
-        addDoc(w, "title", "isbn");
-
+        addDoc(w, "title", "isbn","20170101");
 //        w.deleteDocuments(new Term("title","_title1"));
         w.close();
 
@@ -35,6 +36,7 @@ public class HelloLucene {
 //        Query q = new QueryParser("isbn", analyzer).parse("_isbn1_isbn2");
         Query q1 = new TermQuery(new Term("title", "title"));
         Query q2 = new TermQuery(new Term("isbn", "isbn"));
+        Query q3 = TermRangeQuery.newStringRange("printdate","20160101","20171231",true,true);
 //        BooleanQuery booleanQuery = new BooleanQuery.Builder()
 //                .add(q1, BooleanClause.Occur.MUST)
 //                .add(q2, BooleanClause.Occur.MUST)
@@ -42,6 +44,7 @@ public class HelloLucene {
         BooleanQuery.Builder builder = new BooleanQuery.Builder();
         builder.add(q1, BooleanClause.Occur.MUST);
         builder.add(q2, BooleanClause.Occur.MUST);
+        builder.add(q3, BooleanClause.Occur.MUST);
         BooleanQuery booleanQuery = builder.build();
 
         Query q = booleanQuery;
@@ -58,7 +61,7 @@ public class HelloLucene {
         for (int i = 0; i < hits.length; ++i) {
             int docId = hits[i].doc;
             Document d = searcher.doc(docId);
-            System.out.println((i + 1) + ". " + d.get("isbn") + "\t" + d.get("title") + "\t" + d.get("desc"));
+            System.out.println((i + 1) + ". " + d.get("isbn") + "\t" + d.get("title") + "\t" + d.get("printdate"));
         }
         // reader can only be closed when there
         // is no need to access the documents any more.
@@ -67,11 +70,12 @@ public class HelloLucene {
         reader.close();
     }
 
-    private static void addDoc(IndexWriter w, String title, String isbn) throws IOException {
+    private static void addDoc(IndexWriter w, String title, String isbn, String printdate) throws IOException {
         Document doc = new Document();
         doc.add(new TextField("title", title, Field.Store.YES));
         // use a string field for isbn because we don't want it tokenized
         doc.add(new StringField("isbn", isbn, Field.Store.YES));
+        doc.add(new StringField("printdate", printdate, Field.Store.YES));
         w.addDocument(doc);
     }
 }

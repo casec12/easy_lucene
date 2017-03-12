@@ -11,6 +11,8 @@ public class Book {
     private double width;
     private float height;
     private Date printdate;
+    private String rangedate;
+
     public int getPages() {
         return pages;
     }
@@ -65,6 +67,14 @@ public class Book {
 
     public void setPrintdate(Date printdate) {
         this.printdate = printdate;
+    }
+
+    public String getRangedate() {
+        return rangedate;
+    }
+
+    public void setRangedate(String rangedate) {
+        this.rangedate = rangedate;
     }
 
     @Override
